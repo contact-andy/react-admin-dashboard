@@ -2,8 +2,8 @@ import {useState} from 'react';
 import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import timeGridPlugin from '@fullcalendar/timegrid' 
-import listPlugin from "@fullcalendar/list" 
 import interactionPlugin from "@fullcalendar/interaction" // needed for dayClick
+import listPlugin from "@fullcalendar/list" 
 
 import { Box, List, ListItem, ListItemText,Typography, useTheme } from "@mui/material";
 import { tokens } from '../../theme';
@@ -13,12 +13,13 @@ import { formatDate } from '@fullcalendar/core';
 const Calendar =() =>{
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [currentEvents, setcurrentEvents] = useState([]);
+    const [currentEvents, setCurrentEvents] = useState([]);
 
     const handleDateClick = (selected) => {
         const title = prompt("Please enter a new title for your event");
         const calendarApi = selected.view.calendar;
         calendarApi.unselect();
+        
         if(title){
             calendarApi.addEvent({
                 id:`${selected.dateStr}-${title}`,
@@ -86,7 +87,7 @@ const Calendar =() =>{
                         plugins={[ dayGridPlugin,timeGridPlugin,interactionPlugin, listPlugin ]}
                         // eventContent={renderEventContent}
                         headerToolBar={{
-                            left:"prev, next today",
+                            left:"prev,next today",
                             center:"title",
                             right:"dayGridMonth,timeGridWeek,timeGridDay,listMonth"
                         }}
@@ -97,39 +98,12 @@ const Calendar =() =>{
                         dayMaxEvents={true}
                         select={handleDateClick}
                         eventClick ={handleEventClick}
-                        eventSet = {(events)=>setcurrentEvents(events)}
+                        eventsSet = {(events)=>setCurrentEvents(events)}
                         initialEvents={[
                             {id:"1234",title:"All day event",date:"2023-03-03"},
                             {id:"12345",title:"Timed event",date:"2023-03-07"},
                         ]}
                     />
-
-                    {/* <FullCalendar
-                        plugin={[
-                            dayGridPlugin,
-                            timeGridPlugin,
-                            interactionPlugin,
-                            listPlugin
-                        ]}
-                        height='75vh'
-                        headerToolBar={{
-                            left:"prev, next today",
-                            center:"title",
-                            right:"dayGridMonth,timeGridWeek,timeGridDay,listMonth"
-                        }}
-                        initialView="dayGridMonth"
-                        editable={true}
-                        selectable={true}
-                        selectMirror={true}
-                        dayMaxEvents={true}
-                        select={handleDateClick}
-                        eventClick ={handleEventClick}
-                        eventSet = {(events)=>setcurrentEvents(events)}
-                        initialEvents={[
-                            {id:"1234",title:"All day event",date:"2023-03-03"},
-                            {id:"12345",title:"Timed event",date:"2023-03-07"},
-                        ]}
-                    /> */}
                 </Box>
             </Box>
         </Box>
